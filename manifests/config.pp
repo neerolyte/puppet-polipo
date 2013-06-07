@@ -41,18 +41,4 @@ class polipo::config {
       hour     => '0',
       minute   => '0',
   }
-
-  logrotate::file {
-    "${polipo::params::polipo_name}":
-      source     => "/etc/logrotate.d/${polipo::params::polipo_name}",
-      log        => '/var/log/polipo/*.log',
-      postrotate => "if [ -f '${polipo::params::polipo_pidfile}' ] ; then kill -USR1 '$(cat ${polipo::params::polipo_pidfile}') ; fi",
-      rotation   => [
-        'compress',
-        'daily',
-        'missingok',
-        'rotate 7',
-        "create 644 ${polipo::params::polipo_user} ${polipo::params::polipo_group}",
-      ],
-  }
 }
